@@ -55,7 +55,7 @@ func main() {
 	checkErr(err)
 
 	// Getting all the PRs for saltstack/salt.
-	i := 1 // counter for the 'page' we are fetching from GitHub
+	page := 1 // counter for the 'page' we are fetching from GitHub
 	for {
 		// Seems like we have to take pagination into account. That's why
 		// we loop here and try to get a second page.
@@ -64,7 +64,7 @@ func main() {
 			ListOptions: github.ListOptions{
 				// Unfortunately 100 is the max. Pagination is needed.
 				PerPage: 100,
-				Page:    i,
+				Page:    page,
 			},
 		}
 		prs, _, err := client.PullRequests.List(ctx, owner, repo, opts)
@@ -102,6 +102,6 @@ func main() {
 				fmt.Printf("🔗  %s%s%s\n\n", OKBLUE, pr.GetHTMLURL(), ENDC)
 			}
 		}
-		i = i + 1 // incrementing the page counter
+		page = page + 1 // incrementing the page counter
 	}
 }
