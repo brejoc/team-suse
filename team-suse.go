@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 	"os"
+	"runtime"
 	"syscall"
 
 	"github.com/google/go-github/github"
@@ -21,6 +22,18 @@ func checkErr(err error) {
 }
 
 func main() {
+	if runtime.GOOS == "Linux" {
+		var syscalls = []string{"futex", "epoll_pwait", "nanosleep", "read",
+			"write", "openat", "epoll_ctl", "close", "rt_sigaction", "mmap",
+			"sched_yield", "lstat", "fstat", "mprotect", "rt_sigprocmask",
+			"connect", "munmap", "sigaltstack", "set_robust_list", "clone",
+			"setsockopt", "socket", "getsockname", "gettid", "getpeername",
+			"fcntl", "readlinkat", "getrandom", "newfstatat", "getsockopt",
+			"epoll_create1", "brk", "access", "execve", "arch_prctl",
+			"sched_getaffinity", "getdents64", "set_tid_address", "prlimit64",
+			"exit_group"}
+		whiteList(syscalls)
+	}
 
 	const (
 		owner      = "saltstack"
@@ -39,9 +52,6 @@ func main() {
 		userIcon = "👤"
 		teamIcon = "👥"
 	)
-
-	var syscalls = []string{"futex", "epoll_pwait", "nanosleep", "read", "write", "openat", "epoll_ctl", "close", "rt_sigaction", "mmap", "sched_yield", "lstat", "fstat", "mprotect", "rt_sigprocmask", "connect", "munmap", "sigaltstack", "set_robust_list", "clone", "setsockopt", "socket", "getsockname", "gettid", "getpeername", "fcntl", "readlinkat", "getrandom", "newfstatat", "getsockopt", "epoll_create1", "brk", "access", "execve", "arch_prctl", "sched_getaffinity", "getdents64", "set_tid_address", "prlimit64", "exit_group"}
-	whiteList(syscalls)
 
 	token := os.Getenv("GITHUB_TOKEN")
 	if token == "" {
