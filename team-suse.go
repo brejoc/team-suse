@@ -39,9 +39,6 @@ func main() {
 		teamIcon = "👥"
 	)
 
-	var syscalls = []string{"futex", "epoll_pwait", "nanosleep", "read", "write", "openat", "epoll_ctl", "close", "rt_sigaction", "mmap", "sched_yield", "lstat", "fstat", "mprotect", "rt_sigprocmask", "connect", "munmap", "sigaltstack", "set_robust_list", "clone", "setsockopt", "socket", "getsockname", "gettid", "getpeername", "fcntl", "readlinkat", "getrandom", "newfstatat", "getsockopt", "epoll_create1", "brk", "access", "execve", "arch_prctl", "sched_getaffinity", "getdents64", "set_tid_address", "prlimit64", "exit_group"}
-	whiteList(syscalls)
-
 	token := os.Getenv("GITHUB_TOKEN")
 	if token == "" {
 		fmt.Fprintln(os.Stderr, "You have to set the env. variable GITHUB_TOKEN.")
