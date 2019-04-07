@@ -56,6 +56,7 @@ func main() {
 
 	// Getting all the PRs for saltstack/salt.
 	page := 1 // counter for the 'page' we are fetching from GitHub
+	lastPage := -1
 	for {
 		// Seems like we have to take pagination into account. That's why
 		// we loop here and try to get a second page.
@@ -67,9 +68,12 @@ func main() {
 				Page:    page,
 			},
 		}
-		prs, _, err := client.PullRequests.List(ctx, owner, repo, opts)
-		if err != nil || len(prs) <= 0 {
-			break
+		prs, response, err := client.PullRequests.List(ctx, owner, repo, opts)
+		if err != nil {
+			checkErr(err)
+		}
+		if lastPage == -1 {
+			lastPage = response.LastPage
 		}
 
 		for _, pr := range prs {
@@ -101,6 +105,9 @@ func main() {
 				fmt.Printf(" %s%s%s\n", BOLD, pr.GetTitle(), ENDC)
 				fmt.Printf("🔗  %s%s%s\n\n", OKBLUE, pr.GetHTMLURL(), ENDC)
 			}
+		}
+		if page == lastPage {
+			break
 		}
 		page = page + 1 // incrementing the page counter
 	}
