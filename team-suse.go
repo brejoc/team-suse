@@ -19,7 +19,6 @@ func checkErr(err error) {
 }
 
 func main() {
-
 	const (
 		owner      = "saltstack"
 		repo       = "salt"
