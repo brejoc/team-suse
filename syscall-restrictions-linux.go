@@ -31,7 +31,7 @@ func whiteList(syscalls []string) {
 		fmt.Printf("Error creating filter: %s\n", err)
 	}
 	for _, element := range syscalls {
-		fmt.Printf("[+] Whitelisting: %s\n", element)
+		// fmt.Printf("[+] Whitelisting: %s\n", element)
 		syscallID, err := libseccomp.GetSyscallFromName(element)
 		if err != nil {
 			panic(err)
