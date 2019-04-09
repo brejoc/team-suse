@@ -1,3 +1,5 @@
+// +build linux
+
 package main
 
 import (
@@ -7,7 +9,7 @@ import (
 	libseccomp "github.com/seccomp/libseccomp-golang"
 )
 
-func init() {
+func applySyscallRestrictions() {
 	var syscalls = []string{"futex", "epoll_pwait", "nanosleep", "read",
 		"write", "openat", "epoll_ctl", "close", "rt_sigaction", "mmap",
 		"sched_yield", "lstat", "fstat", "mprotect", "rt_sigprocmask",
@@ -18,7 +20,6 @@ func init() {
 		"sched_getaffinity", "getdents64", "set_tid_address", "prlimit64",
 		"exit_group"}
 	whiteList(syscalls)
-
 }
 
 // Load the seccomp whitelist.
@@ -30,7 +31,7 @@ func whiteList(syscalls []string) {
 		fmt.Printf("Error creating filter: %s\n", err)
 	}
 	for _, element := range syscalls {
-		// fmt.Printf("[+] Whitelisting: %s\n", element)
+		fmt.Printf("[+] Whitelisting: %s\n", element)
 		syscallID, err := libseccomp.GetSyscallFromName(element)
 		if err != nil {
 			panic(err)

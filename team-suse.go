@@ -18,6 +18,12 @@ func checkErr(err error) {
 	}
 }
 
+func init() {
+	// The syscall restriciton is only available for Linux right now via
+	// seccomp.
+	applySyscallRestrictions()
+}
+
 func main() {
 	const (
 		owner      = "saltstack"
