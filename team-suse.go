@@ -1,5 +1,5 @@
-// get_my_prs shows all the pull requests where either you
-// or Team SUSE was requestet to review in saltstack/salt.
+// team-suse shows all the pull requests where either the user from the used
+// Github token or Team SUSE was requestet to review in saltstack/salt.
 
 package main
 
